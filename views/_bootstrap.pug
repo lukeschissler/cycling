@@ -1,0 +1,63 @@
+//- bootstrap.jade
+//- bootstrap mixins
+
+
+//- Including Icon mixins
+include ../../../../../Downloads/PUG-Bootstrap-master/components/icons
+//- Including Alert mixins
+include ../../../../../Downloads/PUG-Bootstrap-master/components/alerts
+//- Including Tooltip mixins
+include ../../../../../Downloads/PUG-Bootstrap-master/components/tooltips
+//- Including Accordion mixins
+include ../../../../../Downloads/PUG-Bootstrap-master/components/accordion
+//- Including Carousel mixins
+include ../../../../../Downloads/PUG-Bootstrap-master/components/carousel
+//- Including Table mixins
+include ../../../../../Downloads/PUG-Bootstrap-master/components/tables
+//- Including Navbar mixins
+include ../../../../../Downloads/PUG-Bootstrap-master/components/navbar
+//- Including Toggle Button mixins
+include ../../../../../Downloads/PUG-Bootstrap-master/components/toggle
+//- Including Nav mixins
+include ../../../../../Downloads/PUG-Bootstrap-master/components/navs
+//- Including Label mixins
+include ../../../../../Downloads/PUG-Bootstrap-master/components/labels
+//- Including Panel mixins
+include ../../../../../Downloads/PUG-Bootstrap-master/components/panels
+//- Including Tab mixins
+include ../../../../../Downloads/PUG-Bootstrap-master/components/tabs
+//- Including Dropdown mixins
+include ../../../../../Downloads/PUG-Bootstrap-master/components/dropdowns
+//- Including Form control mixins
+include ../../../../../Downloads/PUG-Bootstrap-master/components/forms
+//- Including Modal dialog mixins
+include ../../../../../Downloads/PUG-Bootstrap-master/components/modal
+//- Including List group mixins
+include ../../../../../Downloads/PUG-Bootstrap-master/components/list-groups
+//- Including Progress bar mixins
+include ../../../../../Downloads/PUG-Bootstrap-master/components/progress-bars
+//- Including Button mixins
+include ../../../../../Downloads/PUG-Bootstrap-master/components/buttons
+//- Including Image mixins
+include ../../../../../Downloads/PUG-Bootstrap-master/components/images
+//- Including Bootswatch theme mixins
+include ../../../../../Downloads/PUG-Bootstrap-master/components/bootswatch
+
+doctype html
+html(lang="en")
+	head
+		meta(charset="UTF-8")
+		meta(http-equiv="X-UA-Compatible", content="IE=edge")
+		meta(name="viewport",content="width=device-width, initial-scale=1")
+		meta(name="description",content="")
+		meta(name="author",content="")
+		link(rel="icon",href="../../favicon.ico")
+		title= title
+		block styles
+			link(rel="stylesheet",href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css")
+	body(data-spy="scroll",data-target=".scrollspy")
+		block body
+			
+		block scripts
+			script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js")
+			script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js")

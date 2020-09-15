@@ -1,0 +1,13 @@
+{
+  "name": "cycling",
+  "version": "1.0.0",
+  "description": "Bicycling Web App",
+  "author": "Luke Schissler <lukeschissler@gmail.com>",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.16.1"
+  }
+}
