@@ -15,30 +15,48 @@ const connectionString = 'mongodb+srv://luke-user:2visblyb76RJGook@cycle-cluster
 // App
 const app = express();
 
+// middleware
+app.use(express.json());
+app.use(express.urlencoded());
+
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
-app.use(express.static(path.join(__dirname, 'public')));
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
+app.use(express.static(path.join(__dirname, "public")));
 
 // MongoDB/App
 MongoClient.connect(connectionString, {
     useUnifiedTopology: true
 })
     .then(client => {
-        console.log('Connected to the database')
-        const db = client.db('cyle-db')
-
-        app.get('/auth/google',
-            passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
-
-        app.get('/auth/google/callback',
-            passport.authenticate('google', { failureRedirect: '/login' }),
-            function(req, res) {
-                res.redirect('/');
-            });
+        console.log('Connected to the database');
+        const db = client.db('cycle-db');
+        const users = db.collection('users')
 
         app.get('/', (req, res) => {
-            res.render('index', {title: 'Index'})
-        })
+            res.render('index', {title: 'Index'});
+        });
+
+        app.post('/logout', (req, res) => {
+            console.log(req.body);
+        });
+
+        app.post('/login', (req, res) => {
+            console.log(req.body);
+        });
+
+        app.post('/register', (req, res) => {
+            users.insertOne({
+               user: req.body.username,
+               pwd : req.body.password
+            })
+                .then(result => {
+                    console.log(result.ops);
+                })
+                .catch(error => console.error(error));
+
+            res.redirect('/');
+        });
 
         app.get('/map', (req, res) => {
             res.render('map', { title: 'Map', lat: lat, lng:lng});
@@ -48,5 +66,5 @@ MongoClient.connect(connectionString, {
             console.log(`Example app listening on port ${PORT}!`)
         })
 
-})
+    })
     .catch(console.error)

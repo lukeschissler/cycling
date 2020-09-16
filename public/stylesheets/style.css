@@ -1,14 +1,16 @@
-h1 {
-  color: blue;
+#map {
+    height : 100%;
 }
 
-#map {
-  height : 100%;
+.col {
+    text-align: center;
+    border-style: solid;
 }
+
 
 html,
 body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
