@@ -1,12 +1,10 @@
-const MongoClient = require('mongodb').MongoClient
+
 const session = require('express-session');
 const express = require('express');
 const path = require('path');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 
-const lat = 41.85
-const lng = -71.65
 
 // Constants
 const PORT = 8000;
@@ -35,14 +33,6 @@ MongoClient.connect(connectionString, {
 
         app.get('/', (req, res) => {
             res.render('index', {title: 'Index'});
-        });
-
-        app.post('/logout', (req, res) => {
-            console.log(req.body);
-        });
-
-        app.post('/login', (req, res) => {
-            console.log(req.body);
         });
 
         app.post('/register', (req, res) => {
