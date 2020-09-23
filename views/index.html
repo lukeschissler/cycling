@@ -12,7 +12,11 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRu84N0nU_Capg76VDKUIAQErXw9ECTqY&callback=initMap&libraries=&v=weekly" defer></script>
+
+    <script
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRu84N0nU_Capg76VDKUIAQErXw9ECTqY&callback=initMap&libraries=places&v=weekly"
+            defer
+    ></script>
 
     <script src="/javascripts/directions.js"></script>
 
@@ -29,12 +33,20 @@
             </div>
         </div>
     </nav>
-    <div id="floating-panel">
-        <strong>Start:</strong>
-        <input id="start" type="text">
-        <br />
-        <strong>End:</strong>
-        <input id="end" type="text">
+    <div style="display: none">
+        <input
+                id="origin-input"
+                class="controls"
+                type="text"
+                placeholder="Enter an origin location"
+        />
+
+        <input
+                id="destination-input"
+                class="controls"
+                type="text"
+                placeholder="Enter a destination location"
+        />
     </div>
 
     <div id="map"></div>
@@ -68,9 +80,12 @@
                     </form>
                 </div>
                 <div id="comments-div">
-                    <% var people = ['geddy', 'neil', 'alex'] %>
-                    <% for(var i=0; i < people.length; i++) {  %>
-                        <div class="comment"> <%= people[i] %> </div>
+                    <% for(var i=0; i < comments.length; i++) {  %>
+                        <div class="comment">
+                            <span><%= comments[i].id %> </span>
+                            <span><%= comments[i].description %> </span>
+                            <span><%= comments[i].rating %> </span>
+                        </div>
                     <% } %>
                 </div>
             </div>

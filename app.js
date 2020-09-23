@@ -28,15 +28,22 @@ MongoClient.connect(connectionString, {
     .then(client => {
         console.log('Connected to the database');
         const db = client.db('cycle-db');
-        const users = db.collection('users')
+        const commentCollection = db.collection('comments')
 
         app.get('/', (req, res) => {
-            res.render('index', {title: 'Index'});
+            db.collection('comments').find().toArray()
+                .then(results => {
+                    res.render('index', {title: 'Index', comments : results});
+                })
+                .catch(error => console.error(error))
         })
 
-        app.post('/', (req,res) => {
-            console.log(req.body);
-            res.render('index', {title: 'Index'});
+        app.post('/', (req, res) => {
+            commentCollection.insertOne(req.body)
+                .then(result => {
+                   console.log(result.ops)
+                })
+                .catch(error => console.error(error))
         })
 
         app.get('/about', (req, res) => {
@@ -45,23 +52,6 @@ MongoClient.connect(connectionString, {
 
         app.get('/stats', (req, res) => {
             res.render('stats');
-        })
-
-        app.post('/register', (req, res) => {
-            users.insertOne({
-               user: req.body.username,
-               pwd : req.body.password
-            })
-                .then(result => {
-                    console.log(result.ops);
-                })
-                .catch(error => console.error(error));
-
-            res.redirect('/');
-        })
-
-        app.get('/map', (req, res) => {
-            res.render('map', { title: 'Map', lat: lat, lng:lng});
         })
 
         app.listen(PORT, function() {
