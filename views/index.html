@@ -3,27 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <title> <%= title %></title>
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="/stylesheets/style.css">
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRu84N0nU_Capg76VDKUIAQErXw9ECTqY&callback=initMap&libraries=&v=weekly" defer></script>
+
     <script src="/javascripts/directions.js"></script>
+
 </head>
 <body>
-    <h1><%=title %></h1>
-        <div id="floating-panel">
-            <strong>Start:</strong>
-            <input id="start" type="text">
-            <br />
-            <strong>End:</strong>
-            <input id="end" type="text">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Cycling</a>
+
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav ml-auto">
+                <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link active" href="about">About</a>
+                <a class="nav-item nav-link active" href="stats">Statistics</a>
+            </div>
+        </div>
+    </nav>
+    <div id="floating-panel">
+        <strong>Start:</strong>
+        <input id="start" type="text">
+        <br />
+        <strong>End:</strong>
+        <input id="end" type="text">
+    </div>
+
+    <div id="map"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div id="right-panel" style="width: 90%"></div>
+            </div>
+            <div class="col">
+                <div id="form-div">
+                    <form action="/" method="post">
+                        <div class="form-group">
+                            <label for="id-input">Chosen ID</label>
+                            <input name="id" type="text" class="form-control" id="id-input"
+                                   placeholder="Enter an id for for the post!" rows="3"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="desc-input">Route Description</label>
+                            <textarea name="description" type="text" class="form-control" id="desc-input" placeholder="Enter description for your route!" rows="3"></textarea>
+                        </div>
+                        <label for="rating-input" >Give the route a rating</label>
+                        <select name="rating" id ="rating-input" class="form-group mx-sm-3 mb-2">
+                            <option>Pick a Rating</option>
+                            <option>5</option>
+                            <option>4</option>
+                            <option>3</option>
+                            <option>2</option>
+                            <option>1</option>
+                        </select>
+                        <button type="submit" class="btn btn-info btn-sm">Submit</button>
+                    </form>
+                </div>
+                <div id="comments-div">
+                    <% var people = ['geddy', 'neil', 'alex'] %>
+                    <% for(var i=0; i < people.length; i++) {  %>
+                        <div class="comment"> <%= people[i] %> </div>
+                    <% } %>
+                </div>
+            </div>
         </div>
 
-        <div id="map"></div>
-        <div id="right-panel"></div>
+
 </body>
 </html>

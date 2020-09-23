@@ -5,7 +5,7 @@
   "author": "Luke Schissler <lukeschissler@gmail.com>",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "nodemon app.js"
   },
   "dependencies": {
     "ejs": "^3.1.5",

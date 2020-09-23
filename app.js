@@ -1,9 +1,7 @@
 const MongoClient = require('mongodb').MongoClient
-const session = require('express-session');
 const express = require('express');
 const path = require('path');
-const passport = require('passport');
-const LocalStrategy = require('passport-local');
+const bodyParser= require('body-parser');
 
 
 // Constants
@@ -21,6 +19,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 app.use(express.static(path.join(__dirname, "public")));
+app.use(bodyParser.urlencoded({ extended: true }))
 
 // MongoDB/App
 MongoClient.connect(connectionString, {
@@ -33,7 +32,20 @@ MongoClient.connect(connectionString, {
 
         app.get('/', (req, res) => {
             res.render('index', {title: 'Index'});
-        });
+        })
+
+        app.post('/', (req,res) => {
+            console.log(req.body);
+            res.render('index', {title: 'Index'});
+        })
+
+        app.get('/about', (req, res) => {
+            res.render('about');
+        })
+
+        app.get('/stats', (req, res) => {
+            res.render('stats');
+        })
 
         app.post('/register', (req, res) => {
             users.insertOne({
@@ -46,11 +58,11 @@ MongoClient.connect(connectionString, {
                 .catch(error => console.error(error));
 
             res.redirect('/');
-        });
+        })
 
         app.get('/map', (req, res) => {
             res.render('map', { title: 'Map', lat: lat, lng:lng});
-        });
+        })
 
         app.listen(PORT, function() {
             console.log(`Example app listening on port ${PORT}!`)
