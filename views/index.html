@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> <%= title %></title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+    <script
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRu84N0nU_Capg76VDKUIAQErXw9ECTqY&callback=initMap&libraries=places&v=weekly"
+            defer
+    ></script>
+
+    <script src="/javascripts/directions.js"></script>
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Cycling</a>
+
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav ml-auto">
+                <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link active" href="about">About</a>
+                <a class="nav-item nav-link active" href="stats">Statistics</a>
+            </div>
+        </div>
+    </nav>
+    <div style="display: none">
+        <input
+                id="origin-input"
+                class="controls"
+                type="text"
+                placeholder="Enter an origin location"
+        />
+
+        <input
+                id="destination-input"
+                class="controls"
+                type="text"
+                placeholder="Enter a destination location"
+        />
+    </div>
+
+    <div id="map"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col" id = "dir-panel">
+                <div id="right-panel" style="width: 90%"></div>
+            </div>
+            <div class="col" id="stuff-panel">
+                <div id="form-div">
+                    <form action="/" method="post" onsubmit="return formSubmit(event)">
+                        <div class="form-group">
+                            <label for="id-input">Chosen ID</label>
+                            <input name="id" type="text" class="form-control" id="id-input"
+                                   placeholder="Enter an id for for the post!" rows="3"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="desc-input">Route Description</label>
+                            <textarea name="description" type="text" class="form-control" id="desc-input" placeholder="Enter description for your route!" rows="3"></textarea>
+                        </div>
+                        <label for="rating-input" >Give the route a rating</label>
+                        <select name="rating" id ="rating-input" class="form-group mx-sm-3 mb-2">
+                            <option>Pick a Rating</option>
+                            <option>★★★★★</option>
+                            <option>★★★★</option>
+                            <option>★★★</option>
+                            <option>★★</option>
+                            <option>★</option>
+                        </select>
+                        <button id="submit-btn" type="submit" class="btn btn-info btn-sm">Submit</button>
+                    </form>
+                </div>
+                <div id="comments-div">
+                    <% for(var i=0; i < comments.length; i++) {  %>
+                        <div class="comment">
+                            <h5><%= comments[i].id %> </h5>
+                            <div class="comment-body">
+                                <span><%= comments[i].description %> </span>
+                            </div>
+                            <div class = "comment-bottom">
+                                <%= comments[i].rating %>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+
+        </div>
+        <p id="origin-hidden" style="visibility: hidden"></p>
+        <p id="dest-hidden" style="visibility: hidden"></p>
+
+</body>
+</html>

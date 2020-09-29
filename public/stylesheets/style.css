@@ -1,8 +1,127 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+/* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+#map {
+    height: 70vh;
+    margin-right: 15%;
+    margin-left: 15%;
+    margin-bottom: 2%;
 }
 
-a {
-  color: #00B7FF;
+/* Optional: Makes the sample page fill the window. */
+html,
+body {
+    scroll-behavior: smooth;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
+
+.controls {
+    margin-top: 10px;
+    border: 1px solid transparent;
+    border-radius: 2px 0 0 2px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    height: 32px;
+    outline: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+#origin-input,
+#destination-input {
+    background-color: #fff;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 300;
+    margin-left: 12px;
+    padding: 0 11px 0 13px;
+    text-overflow: ellipsis;
+    width: 200px;
+}
+
+#origin-input:focus,
+#destination-input:focus {
+    border-color: #4d90fe;
+}
+
+#mode-selector {
+    color: #fff;
+    background-color: #4d90fe;
+    margin-left: 12px;
+    padding: 5px 11px 0px 11px;
+}
+
+#mode-selector label {
+    font-family: Roboto;
+    font-size: 13px;
+    font-weight: 300;
+}
+
+.navbar {
+    margin-bottom: 2%;
+}
+
+#stuff-panel {
+    visibility: hidden;
+}
+
+#dir-panel-visible {
+    animation: slide-in-left 1.25s;
+}
+
+#stuff-panel-visible {
+    animation: slide-in-right 1.25s;
+}
+
+.comment {
+    position: relative;
+    background-color: rgba(242, 233, 228, 0.3);
+    border-radius: 10px;
+    border-width: 1px;
+    width:90%;
+    height: 20vh;
+    margin-top: 1vh;
+    padding: 10px;
+}
+
+.comment-bottom {
+    position: absolute;
+    bottom: 0;
+    padding-bottom: 5px;
+    padding-left: 5px;
+}
+
+.comment-body {
+    padding-top: 3px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#form-div {
+    width: 90%;
+}
+
+#right-panel {
+    font-family: "Roboto", "sans-serif";
+    line-height: 30px;
+    padding-left: 10px;
+    height: 100%;
+    float: right;
+    width: 390px;
+    overflow: auto;
+}
+
+@media print {
+    #map {
+        height: 500px;
+        margin: 0;
+    }
+
+    #right-panel {
+        float: none;
+        width: auto;
+    }
+}
+
+@-webkit-keyframes slide-in-right{0%{-webkit-transform:translateX(1000px);transform:translateX(1000px);opacity:0}100%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}}@keyframes slide-in-right{0%{-webkit-transform:translateX(1000px);transform:translateX(1000px);opacity:0}100%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}}
+@-webkit-keyframes slide-in-left{0%{-webkit-transform:translateX(-1000px);transform:translateX(-1000px);opacity:0}100%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}}@keyframes slide-in-left{0%{-webkit-transform:translateX(-1000px);transform:translateX(-1000px);opacity:0}100%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}}
