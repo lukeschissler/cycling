@@ -46,6 +46,13 @@ MongoClient.connect(connectionString, {
                 .catch(error => console.error(error))
         })
 
+        app.get('/retrieve-route/:user', async (req, res) => {
+            const route = await commentCollection.findOne({id: req.params.user})
+
+            res.json({origin : route.origin, destination : route.destination })
+
+        })
+
         app.get('/about', (req, res) => {
             res.render('about');
         })

@@ -288,7 +288,14 @@ class AutocompleteDirectionsHandler {
                 strokeOpacity: "0.8"
             }
         });
+        this.directionsRendererTwo = new google.maps.DirectionsRenderer({polylineOptions: {
+                strokeColor: "#7851a9",
+                strokeWeight: "5",
+                strokeOpacity: "0.8"
+            }
+        });
         this.directionsRenderer.setPanel(document.getElementById("right-panel"));
+        this.directionsRendererTwo.setMap(map);
         this.directionsRenderer.setMap(map);
         const originInput = document.getElementById("origin-input");
         const destinationInput = document.getElementById("destination-input");
@@ -340,16 +347,17 @@ class AutocompleteDirectionsHandler {
 
         Array.from(allComments).forEach(comment => {
             comment.addEventListener('click', event => {
+                const user = comment.childNodes[1].innerText
                 if (!activeComment) {
                     activeComment = comment;
                     comment.style['background-color'] = 'rgba(109, 104, 117, 0.2)';
-                    this.existingRoute();
+                    this.existingRoute(user);
                     this.scrollUp();
                 } else if (activeComment !== comment) {
                     activeComment.style['background-color'] = 'rgba(242, 233, 228, 0.3)';
                     activeComment = comment;
                     comment.style['background-color'] = 'rgba(109, 104, 117, 0.2)';
-                    this.existingRoute();
+                    this.existingRoute(user);
                     this.scrollUp();
                 }
             })
@@ -364,32 +372,29 @@ class AutocompleteDirectionsHandler {
         window.scrollBy(0, -1000000)
     }
 
-    existingRoute() {
+    existingRoute(user) {
         const me = this;
-        const directionsRenderer = new google.maps.DirectionsRenderer({polylineOptions: {
-                strokeColor: "#7851a9",
-                strokeWeight: "5",
-                strokeOpacity: "0.8"
-            }
-        });
 
-        directionsRenderer.setMap(this.map);
+        fetch(`/retrieve-route/${user}`)
+            .then(res => res.json())
+            .then(data => {
 
-        this.directionsService.route(
-            {
-                origin: "Boston, MA" ,
-                destination:"Cambridge, MA" ,
-                travelMode: this.travelMode
-            },
-            (response, status) => {
-                if (status === "OK") {
-                    directionsRenderer.setDirections(response);
-                } else {
-                    window.alert("Directions request failed due to " + status);
-                }
-            }
-        );
+                this.directionsService.route(
+                    {
+                        origin: {placeId: data.origin},
+                        destination: {placeId: data.destination},
+                        travelMode: this.travelMode
+                    },
+                    (response, status) => {
+                        if (status === "OK") {
+                            this.directionsRendererTwo.setDirections(response);
+                        } else {
+                            window.alert("Directions request failed due to " + status);
+                        }
+                    }
+                );
 
+            });
     }
 
     route() {
@@ -399,7 +404,6 @@ class AutocompleteDirectionsHandler {
         const me = this;
         document.getElementById('origin-hidden').innerText = this.originPlaceId
         document.getElementById('dest-hidden').innerText = this.destinationPlaceId
-
 
         this.directionsService.route(
             {
@@ -411,6 +415,8 @@ class AutocompleteDirectionsHandler {
                 if (status === "OK") {
                     //set the directions to the answer of the query
                     me.directionsRenderer.setDirections(response);
+
+                    //console.log(response.routes[0].legs[0].steps[0].start_location.lat())
 
                     //show the directions panel and the comments panel
                     const dirPanel = document.getElementById('dir-panel');
