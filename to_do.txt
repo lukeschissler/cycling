@@ -1,0 +1,30 @@
+
+Top priority
+- Improve formatting for comments XXXXXX
+    - Validation for comments
+    - Make the boxes more appealing? p
+- Include route highlighting from comments XXXXXX
+    - Now just make it actually do the route you want....
+
+- Add search functionality to database
+    - Figure out if we want to do it by long/lat, or legs
+- Hide comment section when nothing is searched XXXXXXX
+    - Add animations to fade in XXXXX
+        - Make animations and scroll reappear on secondary search
+    - Scroll down to directions after search XXXXXX
+        - Smoother scroll
+
+Medium Priority
+- Add how to's
+- Add about page
+- Add stats page
+- Add proof of content
+
+Low Priority
+- Add automated comments from some database
+
+
+
+Down the road
+- Hosting
+- Add money to google acc (?)
