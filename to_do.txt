@@ -1,18 +1,27 @@
 
 Top priority
+- Save mass data as documents
+
+- Secondary directions markers C -D
+
+- Hide Secret Key XXXXXX
+    - Switch to production style hiding
+
 - Improve formatting for comments XXXXXX
     - Validation for comments
-    - Make the boxes more appealing? p
+    - Make the boxes more appealing?
+    - Show destination and origin for each route
 - Include route highlighting from comments XXXXXX
-    - Now just make it actually do the route you want....
+    - Now just make it actually do the route you want.... XXXXX
+        - Right now its within 0.045 DD, can change
+        - Need to change so that it updates XXXXX
 
-- Add search functionality to database
-    - Figure out if we want to do it by long/lat, or legs
+- Add search functionality to database XXXXXXX
+    - Figure out if we want to do it by long/lat, or legs XXXX
 - Hide comment section when nothing is searched XXXXXXX
     - Add animations to fade in XXXXX
-        - Make animations and scroll reappear on secondary search
+        - Make animations and scroll reappear on secondary search XXXXXX
     - Scroll down to directions after search XXXXXX
-        - Smoother scroll
 
 Medium Priority
 - Add how to's
@@ -27,4 +36,5 @@ Low Priority
 
 Down the road
 - Hosting
+    - Add secret keys to host environment
 - Add money to google acc (?)

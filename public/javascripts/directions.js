@@ -297,6 +297,7 @@ class AutocompleteDirectionsHandler {
         this.directionsRenderer.setPanel(document.getElementById("right-panel"));
         this.directionsRendererTwo.setMap(map);
         this.directionsRenderer.setMap(map);
+        this.showMap()
         const originInput = document.getElementById("origin-input");
         const destinationInput = document.getElementById("destination-input");
         const modeSelector = document.getElementById("mode-selector");
@@ -337,31 +338,82 @@ class AutocompleteDirectionsHandler {
             this.route();
         });
     }
-    showComments() {
-        const stuff = document.getElementById("stuff-panel");
+    generateComment(comment) {
+        const commentNode = document.createElement('div');
+        commentNode.classList.add("comment");
+        const commentID = document.createElement('h5');
+        const commentBody = document.createElement('div');
+        commentBody.classList.add("comment-body");
+        const commentDesc = document.createElement('span');
+        const commentBottom = document.createElement('div');
+        commentBottom.classList.add("comment-bottom");
 
-        stuff.id = "stuff-panel-visible";
+        const commentIDText = document.createTextNode(comment['id']);
+        commentID.appendChild(commentIDText);
+        const commentDescText = document.createTextNode(comment['description']);
+        commentDesc.appendChild(commentDescText);
+        const commentBottomText = document.createTextNode(comment['rating']);
+        commentBottom.appendChild(commentBottomText);
 
-        let activeComment;
-        const allComments =  document.getElementsByClassName("comment");
+        commentNode.appendChild(commentID);
+        commentNode.appendChild(commentBody);
+        commentBody.appendChild(commentDesc);
+        commentNode.appendChild(commentBottom);
 
-        Array.from(allComments).forEach(comment => {
-            comment.addEventListener('click', event => {
-                const user = comment.childNodes[1].innerText
-                if (!activeComment) {
-                    activeComment = comment;
-                    comment.style['background-color'] = 'rgba(109, 104, 117, 0.2)';
-                    this.existingRoute(user);
-                    this.scrollUp();
-                } else if (activeComment !== comment) {
-                    activeComment.style['background-color'] = 'rgba(242, 233, 228, 0.3)';
-                    activeComment = comment;
-                    comment.style['background-color'] = 'rgba(109, 104, 117, 0.2)';
-                    this.existingRoute(user);
-                    this.scrollUp();
-                }
-            })
+        document.getElementById("comments-div").appendChild(commentNode);
+    }
+
+    showComments(start, end) {
+
+        document.getElementById("comments-div").innerHTML = "";
+
+        const latlngData = {
+            originLat :  start.lat(),
+            originLng : start.lng(),
+            destinationLat : end.lat(),
+            destinationLng : end.lng()
+        }
+
+        fetch(`/retrieve-comments`, {
+            method: "post",
+            headers: { "Content-Type": 'application/json' },
+            body: JSON.stringify(latlngData)
         })
+            .then(res => res.json())
+            .then(data => {
+                data.forEach(comment => this.generateComment(comment));
+
+                const stuff = document.getElementById("stuff-panel");
+                if (stuff) {
+                    stuff.id = "stuff-panel-visible";
+                }
+
+                let activeComment;
+                const allComments =  document.getElementsByClassName("comment");
+
+                Array.from(allComments).forEach(comment => {
+                    comment.addEventListener('click', event => {
+                        const user = comment.childNodes[0].innerText
+                        if (!activeComment) {
+                            activeComment = comment;
+                            comment.style['background-color'] = 'rgba(109, 104, 117, 0.2)';
+                            this.existingRoute(user);
+                            this.scrollUp();
+                        } else if (activeComment !== comment) {
+                            activeComment.style['background-color'] = 'rgba(242, 233, 228, 0.3)';
+                            activeComment = comment;
+                            comment.style['background-color'] = 'rgba(109, 104, 117, 0.2)';
+                            this.existingRoute(user);
+                            this.scrollUp();
+                        }
+                    })
+                })
+            })
+            .catch(error => console.error(error));
+    }
+
+    showMap () {
+        document.getElementById("map-pre").id = "map-post";
     }
 
     scrollDown() {
@@ -373,7 +425,6 @@ class AutocompleteDirectionsHandler {
     }
 
     existingRoute(user) {
-        const me = this;
 
         fetch(`/retrieve-route/${user}`)
             .then(res => res.json())
@@ -381,8 +432,8 @@ class AutocompleteDirectionsHandler {
 
                 this.directionsService.route(
                     {
-                        origin: {placeId: data.origin},
-                        destination: {placeId: data.destination},
+                        origin: data.origin,
+                        destination: data.destination,
                         travelMode: this.travelMode
                     },
                     (response, status) => {
@@ -393,7 +444,6 @@ class AutocompleteDirectionsHandler {
                         }
                     }
                 );
-
             });
     }
 
@@ -402,8 +452,7 @@ class AutocompleteDirectionsHandler {
             return;
         }
         const me = this;
-        document.getElementById('origin-hidden').innerText = this.originPlaceId
-        document.getElementById('dest-hidden').innerText = this.destinationPlaceId
+
 
         this.directionsService.route(
             {
@@ -413,18 +462,28 @@ class AutocompleteDirectionsHandler {
             },
             (response, status) => {
                 if (status === "OK") {
-                    //set the directions to the answer of the query
-                    me.directionsRenderer.setDirections(response);
+                    const start = response.routes[0].legs[0].start_location
+                    const end = response.routes[0].legs.slice(-1)[0].end_location
+
+                    document.getElementById('origin-lat').innerText = start.lat()
+                    document.getElementById('origin-lng').innerText = start.lng()
+                    document.getElementById('dest-lat').innerText = end.lat()
+                    document.getElementById('dest-lng').innerText = end.lng()
 
                     //console.log(response.routes[0].legs[0].steps[0].start_location.lat())
 
                     //show the directions panel and the comments panel
                     const dirPanel = document.getElementById('dir-panel');
-                    dirPanel.id = 'dir-panel-visible';
-                    this.showComments();
+                    if (dirPanel) {
+                        dirPanel.id = 'dir-panel-visible';
+                    }
+                    this.showComments(start, end);
 
                     //scroll down to the comments
                     this.scrollDown();
+
+                    //set the directions to the answer of the query
+                    me.directionsRenderer.setDirections(response);
 
                 } else {
                     window.alert("Directions request failed due to " + status);
@@ -443,8 +502,10 @@ function formSubmit(event){
     const formID = document.getElementById('id-input').value
     const formDescription = document.getElementById('desc-input').value
     const formRating = document.getElementById('rating-input').value
-    const origin = document.getElementById('origin-hidden').innerHTML
-    const destination = document.getElementById('dest-hidden').innerHTML
+    const originLat = parseFloat(document.getElementById('origin-lat').innerHTML)
+    const originLng = parseFloat(document.getElementById('origin-lng').innerHTML)
+    const destinationLat = parseFloat(document.getElementById('dest-lat').innerHTML)
+    const destinationLng = parseFloat(document.getElementById('dest-lng').innerHTML)
 
     //Do validation ...
 
@@ -453,8 +514,10 @@ function formSubmit(event){
         id : formID,
         description : formDescription,
         rating : formRating,
-        origin : origin,
-        destination : destination
+        originLat : originLat,
+        originLng : originLng,
+        destLat : destinationLat,
+        destLng : destinationLng,
     }
 
     fetch("/", {
@@ -465,8 +528,4 @@ function formSubmit(event){
         console.log("request complete! Response:", res);
     });
 }
-
-
-
-
 

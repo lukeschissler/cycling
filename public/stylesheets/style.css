@@ -27,6 +27,24 @@ body {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
+.navbar-custom {
+    background-color: rgba(255, 202, 167, 0.8);
+}
+/* change the brand and text color */
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-text {
+    color: rgba(255,255,255);
+}
+/* change the link color */
+.navbar-custom .navbar-nav .nav-link {
+    color: rgba(255,255,255,.5);
+}
+/* change the color of active or hovered links */
+.navbar-custom .nav-item.active .nav-link,
+.navbar-custom .nav-item:hover .nav-link {
+    color: #ffffff;
+}
+
 #origin-input,
 #destination-input {
     background-color: #fff;
@@ -62,7 +80,7 @@ body {
 }
 
 #stuff-panel {
-    visibility: hidden;
+    display: none;
 }
 
 #dir-panel-visible {
@@ -73,12 +91,19 @@ body {
     animation: slide-in-right 1.25s;
 }
 
+#map-pre {
+    visibility: hidden;
+}
+
+#map-post {
+    animation: slide-in-top 1.25s;
+}
+
 .comment {
     position: relative;
     background-color: rgba(242, 233, 228, 0.3);
     border-radius: 10px;
     border-width: 1px;
-    width:90%;
     height: 20vh;
     margin-top: 1vh;
     padding: 10px;
@@ -125,3 +150,4 @@ body {
 
 @-webkit-keyframes slide-in-right{0%{-webkit-transform:translateX(1000px);transform:translateX(1000px);opacity:0}100%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}}@keyframes slide-in-right{0%{-webkit-transform:translateX(1000px);transform:translateX(1000px);opacity:0}100%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}}
 @-webkit-keyframes slide-in-left{0%{-webkit-transform:translateX(-1000px);transform:translateX(-1000px);opacity:0}100%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}}@keyframes slide-in-left{0%{-webkit-transform:translateX(-1000px);transform:translateX(-1000px);opacity:0}100%{-webkit-transform:translateX(0);transform:translateX(0);opacity:1}}
+@-webkit-keyframes slide-in-top{0%{-webkit-transform:translateY(-1000px);transform:translateY(-1000px);opacity:0}100%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}}@keyframes slide-in-top{0%{-webkit-transform:translateY(-1000px);transform:translateY(-1000px);opacity:0}100%{-webkit-transform:translateY(0);transform:translateY(0);opacity:1}}
