@@ -4,3 +4,12 @@ build/
 .env
 
 .txt
+
+.elasticbeanstalk/
+
+Dockerfile
+.dockerignore
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
